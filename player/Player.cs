@@ -6,6 +6,7 @@ public class Player : KinematicBody
 	public PlayerMovimentTouch playerMovimentTouch;
 	public PlayerControl playerControl;
 	public PlayerAnimation playerAnimation;
+	public PlayerObserver playerObserver;
 
 	[Export]
 	public float Gravity = -9.8f;
@@ -21,12 +22,14 @@ public class Player : KinematicBody
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-
+		this.playerObserver = new PlayerObserver(this);
 		this.playerControl = this.GetParent().GetNode("LayerGUI/ButtonsControl") as PlayerControl;
 		this.playerAnimation = this.GetNode("Body/Model") as PlayerAnimation;
 
 		this.PlayerMovement = new PlayerMovement(this);
 		this.playerMovimentTouch = new PlayerMovimentTouch(this, this.playerControl);
+
+		this.playerObserver.OnPlayerReady();
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -33,6 +33,8 @@ public class PlayerMovimentTouch : PlayerMovement
 			this.Player.GetNode<Spatial>("Body").Rotation = bodyRotation;
 			this.Player.playerAnimation.updateBasicController(direction.Length());
 
+			this.Player.playerObserver.OnPlayerMove(direction);
+
 			strDebug = "Direction: " + direction.ToString();
 			strDebug += "\nDirection Length: " + direction.Length().ToString();
 
