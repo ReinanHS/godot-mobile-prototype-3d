@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://player/Player.cs" type="Script" id=1]
+[ext_resource path="res://player/animation/PlayerModel.tscn" type="PackedScene" id=8]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.498614
+height = 1.9477
+
+[node name="Player" type="KinematicBody"]
+script = ExtResource( 1 )
+MaxSpeed = 3.0
+
+[node name="Body" type="Spatial" parent="."]
+
+[node name="Model" parent="Body" instance=ExtResource( 8 )]
+
+[node name="CamRoot" type="Spatial" parent="."]
+
+[node name="H" type="Spatial" parent="CamRoot"]
+
+[node name="V" type="Spatial" parent="CamRoot/H"]
+transform = Transform( 1, 0, 0, 0, 0.984808, -0.173648, 0, 0.173648, 0.984808, 0, 0, 0 )
+
+[node name="Camera" type="ClippedCamera" parent="CamRoot/H/V"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.96234, 3.86883 )
+process_mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, -1.02657e-07, -0.630106, 0, 0.389114, -6.33947e-08, 0, 0.93034, 0 )
+shape = SubResource( 1 )
