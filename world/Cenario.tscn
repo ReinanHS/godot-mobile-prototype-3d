@@ -1,11 +1,11 @@
 [gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://textures/prototype/Orange/texture_04.png" type="Texture" id=1]
+[ext_resource path="res://assets/textures/prototype/Orange/texture_04.png" type="Texture" id=1]
 [ext_resource path="res://player/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://textures/skybox/FS002_Day_Sunless.png" type="Texture" id=3]
-[ext_resource path="res://textures/prototype/Dark/texture_01.png" type="Texture" id=4]
-[ext_resource path="res://textures/prototype/Green/texture_09.png" type="Texture" id=5]
-[ext_resource path="res://HUD/LayerGUI.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/textures/skybox/FS002_Day_Sunless.png" type="Texture" id=3]
+[ext_resource path="res://assets/textures/prototype/Dark/texture_01.png" type="Texture" id=4]
+[ext_resource path="res://assets/textures/prototype/Green/texture_09.png" type="Texture" id=5]
+[ext_resource path="res://LayerGUI/LayerGUI.tscn" type="PackedScene" id=6]
 
 [sub_resource type="PanoramaSky" id=1]
 panorama = ExtResource( 3 )
@@ -104,6 +104,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0666667 )
 shape = SubResource( 8 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
+layerPath = NodePath("../LayerGUI")
 
 [node name="Boxs" type="Spatial" parent="."]
 

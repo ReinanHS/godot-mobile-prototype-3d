@@ -1,0 +1,229 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://Joystick/Joystick.tscn" type="PackedScene" id=1]
+[ext_resource path="res://LayerGUI/AvatarView.tscn" type="PackedScene" id=2]
+[ext_resource path="res://LayerGUI/assets/agua-mineral.png" type="Texture" id=3]
+[ext_resource path="res://LayerGUI/assets/bolo.png" type="Texture" id=4]
+[ext_resource path="res://assets/textures/control/shaded_light_box.png" type="Texture" id=5]
+[ext_resource path="res://assets/textures/skybox/room.jpg" type="Texture" id=6]
+[ext_resource path="res://LayerGUI/assets/capsulas.png" type="Texture" id=7]
+[ext_resource path="res://LayerGUI/LayerGUI.cs" type="Script" id=8]
+[ext_resource path="res://assets/textures/control/lineLight24.png" type="Texture" id=9]
+[ext_resource path="res://assets/textures/control/lineLight34.png" type="Texture" id=10]
+[ext_resource path="res://assets/textures/icons/microphone-mute.png" type="Texture" id=11]
+[ext_resource path="res://assets/textures/icons/microphone.png" type="Texture" id=12]
+[ext_resource path="res://LayerGUI/Microphone.cs" type="Script" id=13]
+
+[sub_resource type="PanoramaSky" id=1]
+panorama = ExtResource( 6 )
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 1 )
+background_sky_custom_fov = 70.9
+ambient_light_energy = 7.55
+
+[sub_resource type="World" id=3]
+environment = SubResource( 2 )
+
+[sub_resource type="AudioStreamMicrophone" id=4]
+
+[node name="LayerGUI" type="CanvasLayer"]
+script = ExtResource( 8 )
+PanelPath = NodePath("Control/HUD/Panel")
+joystickPath = NodePath("Control/Joystick")
+joystickCameraPath = NodePath("Control/JoystickCamera")
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HUD" type="Control" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Light2D" type="Light2D" parent="Control/HUD"]
+show_behind_parent = true
+light_mask = -2147483617
+position = Vector2( 112.961, 95.1973 )
+scale = Vector2( 0.875491, 0.885034 )
+texture = ExtResource( 5 )
+mode = 3
+range_layer_max = 2
+range_item_cull_mask = -2147483646
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Control" type="ViewportContainer" parent="Control/HUD"]
+light_mask = 2
+margin_left = 43.0
+margin_top = 26.0
+margin_right = 183.0
+margin_bottom = 166.0
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Viewport" type="Viewport" parent="Control/HUD/Control"]
+size = Vector2( 140, 140 )
+world = SubResource( 3 )
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="AvatarView" parent="Control/HUD/Control/Viewport" instance=ExtResource( 2 )]
+transform = Transform( -0.0755879, 0, 0.997139, 0, 1, 0, -0.997139, 0, -0.0755879, 0, 0, 0 )
+
+[node name="Panel" type="Panel" parent="Control/HUD"]
+modulate = Color( 1, 1, 1, 0.470588 )
+show_behind_parent = true
+margin_left = 98.0
+margin_top = 44.0
+margin_right = 444.0
+margin_bottom = 148.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Fome" type="Control" parent="Control/HUD/Panel"]
+margin_left = 85.0
+margin_top = 5.0
+margin_right = 346.0
+margin_bottom = 35.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="bolo" type="Sprite" parent="Control/HUD/Panel/Fome"]
+position = Vector2( 21.2521, 15.1623 )
+scale = Vector2( 0.760146, 0.760146 )
+texture = ExtResource( 4 )
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/HUD/Panel/Fome"]
+margin_left = 39.0
+margin_top = 3.16234
+margin_right = 248.0
+margin_bottom = 28.1623
+value = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sede" type="Control" parent="Control/HUD/Panel"]
+margin_left = 85.0003
+margin_top = 37.0
+margin_right = 346.0
+margin_bottom = 67.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="agua-mineral" type="Sprite" parent="Control/HUD/Panel/Sede"]
+position = Vector2( 21.2521, 15.1623 )
+scale = Vector2( 0.760146, 0.760146 )
+texture = ExtResource( 3 )
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/HUD/Panel/Sede"]
+margin_left = 39.0
+margin_top = 3.0
+margin_right = 248.0
+margin_bottom = 28.0
+value = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Vida" type="Control" parent="Control/HUD/Panel"]
+margin_left = 85.0003
+margin_top = 67.0
+margin_right = 346.0
+margin_bottom = 97.0
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="vida" type="Sprite" parent="Control/HUD/Panel/Vida"]
+position = Vector2( 23.2521, 15.1623 )
+scale = Vector2( 0.760146, 0.760146 )
+texture = ExtResource( 7 )
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/HUD/Panel/Vida"]
+margin_left = 39.0
+margin_top = 3.0
+margin_right = 248.0
+margin_bottom = 28.0
+value = 100.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Microphone" type="Control" parent="Control/HUD"]
+margin_left = 454.0
+margin_top = 44.0
+margin_right = 484.0
+margin_bottom = 77.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MicrophoneButton" type="TouchScreenButton" parent="Control/HUD/Microphone"]
+position = Vector2( -10, 0 )
+scale = Vector2( 1.09909, 1.09621 )
+normal = ExtResource( 11 )
+pressed = ExtResource( 12 )
+script = ExtResource( 13 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Control/HUD/Microphone/MicrophoneButton"]
+
+[node name="AudioStreamRecord" type="AudioStreamPlayer" parent="Control/HUD/Microphone/MicrophoneButton"]
+stream = SubResource( 4 )
+autoplay = true
+bus = "Record"
+
+[node name="Joystick" parent="Control" instance=ExtResource( 1 )]
+anchor_top = 1.0
+anchor_right = 0.0
+margin_left = 0.0
+margin_top = -469.0
+margin_right = 444.0
+
+[node name="JoystickCamera" parent="Control" instance=ExtResource( 1 )]
+visible = false
+margin_left = 444.0
+margin_top = 0.0
+margin_right = 0.0
+joystickMode = 1
+vectorMode = 1
+
+[node name="ButtonActions" type="Control" parent="Control"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -542.0
+margin_top = -266.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="JumpButton" type="TouchScreenButton" parent="Control/ButtonActions"]
+position = Vector2( 378.392, 10.789 )
+scale = Vector2( 1.48351, 1.48351 )
+normal = ExtResource( 9 )
+action = "jump"
+
+[node name="RuningButton" type="TouchScreenButton" parent="Control/ButtonActions"]
+position = Vector2( 221.985, 111.697 )
+scale = Vector2( 1.48351, 1.48351 )
+normal = ExtResource( 10 )
+action = "run"

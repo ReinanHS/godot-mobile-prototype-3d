@@ -1,118 +1,48 @@
-using Godot;
-public class PlayerMovement: PlayerMovimentInterface
+﻿using Godot;
+public class PlayerMovement
 {
 	protected Player Player { get; }
-
-	public float Gravity { get; set;}
-	public float MaxSpeed { get; set; }
-	public float JumpSpeed { get; set; }
-	public float Acceleration { get; set; }
-	public float Deacceleration { get; set; }
-
-	protected Vector3 _velocity;
-
-	/**
-	 * Movimentação para esquerda
-	 */
-	public bool MoveLeft { get; set; }
-	/**
-	 * Movimentação para direita
-	 */
-	public bool MoveRight { get; set; }
-	/**
-	 * Movimentação para frente
-	 */
-	public bool MoveForward { get; set; }
-	/**
-	 * Movimentação para para trás
-	 */
-	public bool MoveBackWards { get; set; }
-	/**
-	 * Pulando
-	 */
-	public bool Jump { get; set; }
+	protected Vector3 velocity = Vector3.Zero;
 
 	public PlayerMovement(Player player)
 	{
 		this.Player = player;
-
-		this.Gravity = player.Gravity;
-		this.MaxSpeed = player.MaxSpeed;
-		this.JumpSpeed = player.JumpSpeed;
-		this.Acceleration = player.Acceleration;
-		this.Deacceleration = player.Deacceleration;
-
-		this._velocity = new Vector3();
 	}
 
-	public void OnMoviment(float delta)
+	public void onMoviment(float delta, Vector3 direction)
 	{
-		this.ListenToInput();
+		Vector3 newVelocity = this.calculateNewVelocity(direction, delta);
+		this.velocity.x = newVelocity.x;
+		this.velocity.z = newVelocity.z;
 
-		Vector3 direction = this.CalculateDirectionBasedOnInput();
+		this.velocity = this.Player.MoveAndSlide(this.velocity, Vector3.Up);
+		this.Player.playerAnimation.updateBasicController(direction.Length());
 
-		direction.y = 0;
-		direction = direction.Normalized();
-
-		Vector3 newVelocity = this.CalculateNewVelocity(direction, delta);
-		_velocity.x = newVelocity.x;
-		_velocity.z = newVelocity.z;
-
-		_velocity = this.Player.MoveAndSlide(_velocity, Vector3.Up);
-
-		if (this.Player.IsOnFloor() && this.Jump)
+		if (this.Player.IsOnFloor() && Input.IsActionPressed("jump"))
 		{
-			_velocity.y = this.JumpSpeed;
+			this.velocity.y = this.Player.JumpSpeed;
 		}
 	}
 
-	public Vector3 CalculateDirectionBasedOnInput()
+	private Vector3 calculateNewVelocity(Vector3 direction, float delta)
 	{
-		Vector3 direction = new Vector3();
-		Transform playerTransform = this.Player.GlobalTransform;
-
-		if (this.MoveForward)
-		{
-			direction += -playerTransform.basis[2];
-		}
-		if (this.MoveBackWards)
-		{
-			direction += playerTransform.basis[2];
-		}
-
-		if (this.MoveLeft)
-		{
-			direction += -playerTransform.basis[0];
-		}
-		if (this.MoveRight)
-		{
-			direction += playerTransform.basis[0];
-		}
-
-		return direction;
-	}
-
-	public Vector3 CalculateNewVelocity(Vector3 direction, float delta)
-	{
-		this._velocity.y += delta * this.Gravity;
-		Vector3 newVelocity = this._velocity;
+		this.velocity.y += delta * this.Player.Gravity;
+		Vector3 newVelocity = this.velocity;
 
 		newVelocity.y = 0;
-	
-		Vector3 target = direction * this.MaxSpeed;
 
-		float acceleration = direction.Dot(newVelocity) > 0 ? this.Acceleration : this.Deacceleration;
+		float speed = this.Player.WalkingSpeed;
+
+		if (Input.IsActionPressed("run"))
+		{
+			speed = this.Player.RunningSpeed;
+		}
+
+		Vector3 target = direction * speed;
+
+		float acceleration = direction.Dot(newVelocity) > 0 ? this.Player.Acceleration : this.Player.Deacceleration;
 		newVelocity = newVelocity.LinearInterpolate(target, acceleration * delta);
 
 		return newVelocity;
-	}
-
-	public void ListenToInput()
-	{
-		this.MoveLeft = Input.IsActionPressed("move_left");
-		this.MoveRight = Input.IsActionPressed("move_right");
-		this.MoveForward = Input.IsActionPressed("move_forward");
-		this.MoveBackWards = Input.IsActionPressed("move_backwards");
-		this.Jump = Input.IsActionPressed("jump");
 	}
 }
